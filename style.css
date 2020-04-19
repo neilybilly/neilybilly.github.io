@@ -1,0 +1,277 @@
+#grid{
+display: grid;
+grid-template-columns: repeat(8, 1fr);
+grid-auto-rows: minmax(10px, auto);
+grid-template-areas: 
+'nav nav nav nav nav nav nav nav'
+'todo todo table-card table-card table-card table-card table-card table-card'
+}
+body{
+margin:0;
+background-color: #ECF0F1;
+font-family: Arial, Helvetica, sans-serif;
+}
+nav {
+grid-area: nav;
+background-color: #3498DB;
+}
+nav h1{
+margin-left: 20px;
+color: #333333;
+}
+button{
+background-color: #3498DB;
+color: white;
+font-family: Arial, Helvetica, sans-serif;
+font-size: 15px;
+}
+button:hover{
+background-color: rgb(31, 113, 168);
+}
+.todo{
+grid-area: todo;
+background-color: white;
+height: 100%;
+margin: 30px 30px 10px 30px;
+}
+.todo h2{
+text-align: center;
+color: #333333;
+}
+.todo h3{
+color: #3498DB;
+padding-left: 30px;
+}
+.todo p{
+padding-left: 40px;
+}
+.table-card{
+grid-area: table-card;
+background-color: white;
+margin: 30px 30px 0px 0px;
+height: 100%;
+}
+table{
+width: 100%;
+border-collapse: collapse;
+}
+tr:nth-child(odd){
+background-color: #ECF0F1;
+}
+tr:first-child{
+background-color: #666666;
+color: #ECF0F1;
+}
+th, td{
+padding: 20px;
+text-align: center;
+}
+td:last-child, td:nth-child(6){
+padding:5px;
+}
+th:last-child, th:nth-child(6){
+padding:10px;
+}
+.card {
+box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+transition: 0.3s;
+}
+#create-button{
+padding: 10px 40px;
+margin: 20px 10px 10px 0px;
+cursor: pointer;
+float: right;
+}
+.fa-trash-o{
+color:#666666;
+}
+i{
+cursor: pointer;
+color: gray;
+}
+i:hover{
+color: black;
+}
+
+/* #3498DB
+#2980B9
+#FFFFFF
+#ECF0F1
+#333333 */
+
+/* The Modal (background) */
+.modal {
+display: none; /* Hidden by default */
+position: fixed; /* Stay in place */
+z-index: 1; /* Sit on top */
+padding-top: 100px; /* Location of the box */
+left: 0;
+top: 0;
+width: 100%; /* Full width */
+height: 100%; /* Full height */
+overflow: auto; /* Enable scroll if needed */
+background-color: rgb(0,0,0); /* Fallback color */
+background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+background-color: #fefefe;
+margin: auto;
+padding: 20px;
+padding-bottom: 50px;
+border: 1px solid #888;
+width: 30%;
+}
+.modal-content h3 {
+    margin-bottom: 0px;
+}
+.modal-content input, select {
+width: 100%;
+padding: 12px 5px;
+margin: 8px 0;
+display: inline-block;
+border: 1px solid #ccc;
+border-radius: 4px;
+box-sizing: border-box;
+font-size: 15px;
+}
+.modal-content select {
+width: 100%;
+height: 44px;
+background-color: white;
+border-radius: 10px;
+}
+
+/* The Close Button */
+.close {
+color: #aaaaaa;
+float: right;
+font-size: 28px;
+font-weight: bold;
+}
+
+#create-btn{
+    float: right;
+    padding:10px 30px;
+    cursor: pointer;
+}
+
+#save-btn{
+float: right;
+padding:10px 30px;
+cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+color: #000;
+text-decoration: none;
+cursor: pointer;
+}
+
+/* REGISTER PAGE */
+
+.register-card {
+    height: 500px;
+    width: 500px;
+    background-color: white;
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+.register-form {
+    height: 450px;
+    width: 400px;
+    background-color: white;
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+.register-form label, .register-form input {
+    width: 100%;
+    margin-bottom: 25px;
+    font-size: medium;
+}
+
+.register-form input {
+    height: 35px;
+    margin-top: 2px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.register-form h1 {
+    text-align: center;
+    margin-top: 0;
+    color: rgb(31, 113, 168);
+}
+
+#register-btn {
+    padding: 10px 40px;
+    margin: 0px 0px 10px 0px;
+    cursor: pointer;
+    float: right;
+}
+
+.login-card {
+    height: 350px;
+    width: 500px;
+    background-color: white;
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+.login-form {
+    height: 300px;
+    width: 400px;
+    background-color: white;
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+.login-form label, .login-form input {
+    width: 100%;
+    margin-bottom: 25px;
+    font-size: medium;
+}
+
+.login-form input {
+    height: 35px;
+    margin-top: 2px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.login-form h1 {
+    text-align: center;
+    margin-top: 0;
+    color: rgb(31, 113, 168);
+}
+
+#login-btn {
+    padding: 10px 40px;
+    margin: 0px 0px 10px 0px;
+    cursor: pointer;
+    float: right;
+}

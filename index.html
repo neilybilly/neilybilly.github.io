@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<link rel="stylesheet" href="style.css">
+		<meta charset="utf-8">
+		<script src="https://use.fontawesome.com/54b6e1127a.js"></script>
+	</head>
+	<body>
+		<div id="main">
+		<div id="grid">
+			<nav>
+				<h1><span style="color: white;">Maintenance</span>Tracker</h1>
+			</nav>
+			<div class="card todo">
+				<h2>To-Do List</h2>
+				<h3>Weekly</h3>
+					<p>Mow Lawns</p>
+					<p>Clean Parking Lot</p>
+				<h3>Monthly</h3>
+					<p>Clean Parking Garage</p>
+					<p>Spray Weeds</p>
+					<p>Trim Bushes</p>
+				<h3>Quarterly</h3>
+					<p>Fertilize Lawns</p>
+				<h3>Annually</h3>
+					<p>Trim Trees</p>
+					<p>Fertilize Plants</p>
+			</div>
+			<div class="table-card card">
+				<table id="jobs-table">
+				</table>
+				<button id="create-button">New</button>
+			</div>
+			
+		</div>
+
+		<!-- The Modal -->
+	<div id="myModal" class="modal">
+
+		<!-- Modal content -->
+		<div class="modal-content">
+	  	<span class="close">&times;</span>
+		 <h2 id="modal-title">New Entry</h2>
+		 <h3>Name</h3>
+		 <input type="text" id="name" placeholder="Name"></input>
+		 <h3>Hours</h3>
+		 <input type="text" id="hours" placeholder="hours"></input>
+		 <h3>Lawn</h3>
+		 <select id="lawn" name="lawn">
+			<option value="N/A" selected>N/A</option>
+			<option value="Mowed" selected>Mowed</option>
+			<option value="Mowed & Edged">Mowed & Edged</option>
+			<option value="Fertilized">Fertilized</option>
+		  </select>
+		 <h3>Other</h3>
+		 <input type="text" id="other" placeholder="None"></input>
+		 <h3>Date</h3>
+		 <input type="text" id="date" placeholder="02/20/20" style="margin-bottom: 20px;"></input>
+		 <button id="create-btn">Create</button>
+		 <button id="save-btn" style="display: none;">Save</button>
+		</div>
+	</div>
+	</div>
+
+	<div class="card register-card" style="display: none;">
+
+        <div class="register-form">
+
+            <h1>Create Account</h1>
+
+            <label>First Name</label>
+            <input type="text" id="first" placeholder="First Name"></input>
+
+            <label>Last Name</label>
+            <input type="text" id="last" placeholder="Last Name"></input>
+
+            <label>Email</label>
+            <input type="text" id="email" placeholder="Email"></input>
+
+            <label>Password</label>
+			<input type="text" id="password" placeholder="Password" style="margin-bottom: 10px;"></input>
+			
+			<div id="alertMsg" style="display: none; color:red;">That email already exists.</div>
+
+            <div style="margin-top: 20px; font-size: 14px; cursor:pointer" id="already">Already have an account?
+
+                <button id="register-btn">Sign Up</button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="card login-card" style="display: none;">
+
+        <div class="login-form">
+
+            <h1>Login</h1>
+
+            <label>Email</label>
+            <input type="text" id="email2" placeholder="Email"></input>
+
+            <label>Password</label>
+			<input type="text" id="password2" placeholder="Password" style="margin-bottom: 10px;"></input>
+			
+			<div id="alertMsg2" style="display: none; color:red;">Wrong email or password</div>
+
+            <div style="margin-top: 20px; font-size: 14px; cursor:pointer" id="dont">Don't have an account?
+
+                <button id="login-btn">Login</button>
+
+            </div>
+
+        </div>
+
+    </div> 
+	</body>
+		<script type="text/javascript" src="maintenance.js"></script>
+	
+</html>
