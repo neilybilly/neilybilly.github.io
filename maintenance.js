@@ -104,7 +104,9 @@ function deleteJobOnServer(jobId) {
 }
 
 function selectJobOnServer(jobId){
-    fetch(BASEURL + "/jobs/" + jobId).then(function (response) {
+    fetch(BASEURL + "/jobs/" + jobId, {
+        credentials: "include"
+    }).then(function (response) {
         response.json().then(function (jobsFromServer) {
         console.log(jobsFromServer);
         modal.style.display = "block";
