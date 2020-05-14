@@ -1,5 +1,3 @@
-var BASEURL = "https://maintenancetracker.herokuapp.com"
-
 window.onload = function() {
     loadJobs();
 }
@@ -17,7 +15,7 @@ button.onclick = function(){
         var data = "name=" + encodeURIComponent(nameInput) + "&hours=" + encodeURIComponent(hoursInput) + "&lawn=" + encodeURIComponent(lawnInput) + "&other=" + encodeURIComponent(otherInput) + "&date=" + encodeURIComponent(dateInput);
         
         console.log(data);
-        fetch(BASEURL + "/jobs", {
+        fetch("http://localhost:8080/jobs", {
             method: "POST",
             credentials: "include",
             body: data,
@@ -33,7 +31,8 @@ button.onclick = function(){
 
 // loads the list of restaurants and appends them to a list on the website.
 function loadJobs() {
-    fetch(BASEURL + "/jobs", {
+    fetch("http://localhost:8080/jobs", {
+        method: "GET",
         credentials: "include"
     }).then(function (response) {
         if (response.status == 200) {
@@ -92,7 +91,7 @@ function loadJobs() {
 function deleteJobOnServer(jobId) {
     console.log(jobId);
     if (confirm("Are you sure you want to Delete this item?")) {
-        fetch(BASEURL +"/jobs/" + jobId, {
+        fetch("http://localhost:8080/jobs/" + jobId, {
             method: "DELETE",
             credentials: "include"
         }).then(function (response){
@@ -104,7 +103,7 @@ function deleteJobOnServer(jobId) {
 }
 
 function selectJobOnServer(jobId){
-    fetch(BASEURL + "/jobs/" + jobId, {
+    fetch("http://localhost:8080/jobs/" + jobId, {
         credentials: "include"
     }).then(function (response) {
         response.json().then(function (jobsFromServer) {
@@ -137,7 +136,7 @@ function selectJobOnServer(jobId){
                 var data = "name=" + encodeURIComponent(nameInput) + "&hours=" + encodeURIComponent(hoursInput) + "&lawn=" + encodeURIComponent(lawnInput) + "&other=" + encodeURIComponent(otherInput) + "&date=" + encodeURIComponent(dateInput);
                 
                 console.log(data);
-                fetch(BASEURL + "/jobs/" + jobsFromServer['id'], {
+                fetch("http://localhost:8080/jobs/" + jobsFromServer['id'], {
                     method: "PUT",
                     credentials: "include",
                     body: data,
@@ -198,18 +197,12 @@ registerBtn.onclick = function(){
     if (firstInput!="" && lastInput!="" && emailInput!="" && passwordInput!=""){
         var data = "first=" + encodeURIComponent(firstInput) + "&last=" + encodeURIComponent(lastInput) + "&email=" + encodeURIComponent(emailInput) + "&password=" + encodeURIComponent(passwordInput);
 
-        fetch(BASEURL + "/users", {
+        fetch("http://localhost:8080/users", {
             method: "POST",
             credentials: "include",
             body: data,
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded"
-            }
-        }).then(function (response){
-            if(response.status == 422) {
-                document.querySelector('#alertMsg').style.display = 'block';
-                document.querySelector('.login-card').style.display = "none";
-                document.querySelector('.register-card').style.display = "block";
             }
         });
     }
@@ -220,27 +213,20 @@ var loginBtn = document.querySelector('#login-btn');
 loginBtn.onclick = function(){
     var emailInput = document.querySelector("#email2").value;
     var passwordInput = document.querySelector("#password2").value;
-    console.log(passwordInput);
 
     if (emailInput!="" && passwordInput!=""){
         var data = "email=" + encodeURIComponent(emailInput) + "&password=" + encodeURIComponent(passwordInput);
 
-        fetch(BASEURL + "/sessions", {
+        fetch("http://localhost:8080/sessions", {
             method: "POST",
             credentials: "include",
             body: data,
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded"
             }
-        }).then(function (response){
-            if(response.status == 401) {
-                document.querySelector('#alertMsg2').style.display = 'block';
-                document.querySelector('.register-card').style.display = "none";
-                document.querySelector('.login-card').style.display = "block";       
-            } else {
-                loadJobs();
-            }
-            
+        }).then(function (response) {
+            console.log(response.status)
+            loadJobs();
         });
     }
 };
