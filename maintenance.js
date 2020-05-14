@@ -1,3 +1,5 @@
+var BASEURL = "https://maintenancetracker.herokuapp.com"
+
 window.onload = function() {
     loadJobs();
 }
@@ -13,9 +15,9 @@ button.onclick = function(){
 
     if (nameInput!="" && hoursInput!="" && dateInput!="" && otherInput!=""){
         var data = "name=" + encodeURIComponent(nameInput) + "&hours=" + encodeURIComponent(hoursInput) + "&lawn=" + encodeURIComponent(lawnInput) + "&other=" + encodeURIComponent(otherInput) + "&date=" + encodeURIComponent(dateInput);
-        
+
         console.log(data);
-        fetch("http://localhost:8080/jobs", {
+        fetch(BASEURL + "/jobs", {
             method: "POST",
             credentials: "include",
             body: data,
@@ -31,8 +33,7 @@ button.onclick = function(){
 
 // loads the list of restaurants and appends them to a list on the website.
 function loadJobs() {
-    fetch("http://localhost:8080/jobs", {
-        method: "GET",
+    fetch(BASEURL + "/jobs", {
         credentials: "include"
     }).then(function (response) {
         if (response.status == 200) {
@@ -77,9 +78,9 @@ function loadJobs() {
                     tr.appendChild(td2);     
                     tr.appendChild(td);
                     jobsTable.appendChild(tr);
-                    
+
                 });
-            
+
             });
         } else {
             document.querySelector(".register-card").style.display = 'block';
@@ -91,7 +92,7 @@ function loadJobs() {
 function deleteJobOnServer(jobId) {
     console.log(jobId);
     if (confirm("Are you sure you want to Delete this item?")) {
-        fetch("http://localhost:8080/jobs/" + jobId, {
+        fetch(BASEURL +"/jobs/" + jobId, {
             method: "DELETE",
             credentials: "include"
         }).then(function (response){
@@ -103,7 +104,7 @@ function deleteJobOnServer(jobId) {
 }
 
 function selectJobOnServer(jobId){
-    fetch("http://localhost:8080/jobs/" + jobId, {
+    fetch(BASEURL + "/jobs/" + jobId, {
         credentials: "include"
     }).then(function (response) {
         response.json().then(function (jobsFromServer) {
@@ -134,9 +135,9 @@ function selectJobOnServer(jobId){
 
             if (nameInput!="" && hoursInput!="" && dateInput!="" && otherInput!=""){
                 var data = "name=" + encodeURIComponent(nameInput) + "&hours=" + encodeURIComponent(hoursInput) + "&lawn=" + encodeURIComponent(lawnInput) + "&other=" + encodeURIComponent(otherInput) + "&date=" + encodeURIComponent(dateInput);
-                
+
                 console.log(data);
-                fetch("http://localhost:8080/jobs/" + jobsFromServer['id'], {
+                fetch(BASEURL + "/jobs/" + jobsFromServer['id'], {
                     method: "PUT",
                     credentials: "include",
                     body: data,
@@ -197,12 +198,18 @@ registerBtn.onclick = function(){
     if (firstInput!="" && lastInput!="" && emailInput!="" && passwordInput!=""){
         var data = "first=" + encodeURIComponent(firstInput) + "&last=" + encodeURIComponent(lastInput) + "&email=" + encodeURIComponent(emailInput) + "&password=" + encodeURIComponent(passwordInput);
 
-        fetch("http://localhost:8080/users", {
+        fetch(BASEURL + "/users", {
             method: "POST",
             credentials: "include",
             body: data,
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded"
+            }
+        }).then(function (response){
+            if(response.status == 422) {
+                document.querySelector('#alertMsg').style.display = 'block';
+                document.querySelector('.login-card').style.display = "none";
+                document.querySelector('.register-card').style.display = "block";
             }
         });
     }
@@ -213,20 +220,27 @@ var loginBtn = document.querySelector('#login-btn');
 loginBtn.onclick = function(){
     var emailInput = document.querySelector("#email2").value;
     var passwordInput = document.querySelector("#password2").value;
+    console.log(passwordInput);
 
     if (emailInput!="" && passwordInput!=""){
         var data = "email=" + encodeURIComponent(emailInput) + "&password=" + encodeURIComponent(passwordInput);
 
-        fetch("http://localhost:8080/sessions", {
+        fetch(BASEURL + "/sessions", {
             method: "POST",
             credentials: "include",
             body: data,
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded"
             }
-        }).then(function (response) {
-            console.log(response.status)
-            loadJobs();
+        }).then(function (response){
+            if(response.status == 401) {
+                document.querySelector('#alertMsg2').style.display = 'block';
+                document.querySelector('.register-card').style.display = "none";
+                document.querySelector('.login-card').style.display = "block";       
+            } else {
+                loadJobs();
+            }
+
         });
     }
 };
