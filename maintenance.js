@@ -1,3 +1,5 @@
+var BASEURL = "https://maintenancetracker.herokuapp.com"
+
 window.onload = function() {
     loadJobs();
 }
@@ -20,8 +22,7 @@ document.querySelector("#month").onchange = function() {
 
 function loadHours(month) {
 
-    fetch("http://localhost:8080/jobs", {
-        method: "GET",
+    fetch(BASEURL + "/jobs", {
         credentials: "include"
     }).then(function (response) {
         if (response.status == 200) {
@@ -85,7 +86,7 @@ button.onclick = function(){
         var data = "name=" + encodeURIComponent(nameInput) + "&hours=" + encodeURIComponent(hoursInput) + "&lawn=" + encodeURIComponent(lawnInput) + "&other=" + encodeURIComponent(otherInput) + "&date=" + encodeURIComponent(dateInput);
         
         console.log(data);
-        fetch("http://localhost:8080/jobs", {
+        fetch(BASEURL + "/jobs", {
             method: "POST",
             credentials: "include",
             body: data
@@ -100,8 +101,7 @@ button.onclick = function(){
 
 // loads the list of restaurants and appends them to a list on the website.
 function loadJobs() {
-    fetch("http://localhost:8080/jobs", {
-        method: "GET",
+    fetch(BASEURL + "/jobs", {
         credentials: "include"
     }).then(function (response) {
         if (response.status == 200) {
@@ -160,7 +160,7 @@ function loadJobs() {
 function deleteJobOnServer(jobId) {
     console.log(jobId);
     if (confirm("Are you sure you want to Delete this item?")) {
-        fetch("http://localhost:8080/jobs/" + jobId, {
+        fetch(BASEURL +"/jobs/" + jobId, {
             method: "DELETE",
             credentials: "include"
         }).then(function (response){
@@ -172,7 +172,7 @@ function deleteJobOnServer(jobId) {
 }
 
 function selectJobOnServer(jobId){
-    fetch("http://localhost:8080/jobs/" + jobId, {
+    fetch(BASEURL +"/jobs/" + jobId, {
         credentials: "include"
     }).then(function (response) {
         response.json().then(function (jobsFromServer) {
@@ -205,7 +205,7 @@ function selectJobOnServer(jobId){
                 var data = "name=" + encodeURIComponent(nameInput) + "&hours=" + encodeURIComponent(hoursInput) + "&lawn=" + encodeURIComponent(lawnInput) + "&other=" + encodeURIComponent(otherInput) + "&date=" + encodeURIComponent(dateInput);
                 
                 console.log(data);
-                fetch("http://localhost:8080/jobs/" + jobsFromServer['id'], {
+                fetch(BASEURL + "/jobs/" + jobsFromServer['id'], {
                     method: "PUT",
                     credentials: "include",
                     body: data,
@@ -297,7 +297,7 @@ registerBtn.onclick = function(){
     if (firstInput!="" && lastInput!="" && emailInput!="" && passwordInput!=""){
         var data = "first=" + encodeURIComponent(firstInput) + "&last=" + encodeURIComponent(lastInput) + "&email=" + encodeURIComponent(emailInput) + "&password=" + encodeURIComponent(passwordInput);
 
-        fetch("http://localhost:8080/users", {
+        fetch(BASEURL + "/users", {
             method: "POST",
             credentials: "include",
             body: data,
@@ -317,7 +317,7 @@ loginBtn.onclick = function(){
     if (emailInput!="" && passwordInput!=""){
         var data = "email=" + encodeURIComponent(emailInput) + "&password=" + encodeURIComponent(passwordInput);
 
-        fetch("http://localhost:8080/sessions", {
+        fetch(BASEURL + "/sessions", {
             method: "POST",
             credentials: "include",
             body: data,
