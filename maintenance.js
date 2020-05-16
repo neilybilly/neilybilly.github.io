@@ -49,8 +49,8 @@ function loadHours(month) {
                         if (name == job['name']){
                             var date = job['date'].split('/');
                             if ( date[0]-1 == month ) {
-                                total += parseInt(job['hours'], 10);
-                                userTotal += parseInt(job['hours'], 10);
+                                total += parseFloat(job['hours']);
+                                userTotal += parseFloat(job['hours']);
                             }
                         }
                     });
