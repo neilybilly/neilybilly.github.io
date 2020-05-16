@@ -4,13 +4,17 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="style.css">
 		<meta charset="utf-8">
+		<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
 		<script src="https://use.fontawesome.com/54b6e1127a.js"></script>
+		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	</head>
 	<body>
 		<div id="main">
 		<div id="grid">
 			<nav>
 				<h1><span style="color: white;">Maintenance</span>Tracker</h1>
+				<h3 id="hours-btn">Hours</h3>
 			</nav>
 			<div class="card todo">
 				<h2>To-Do List</h2>
@@ -50,7 +54,7 @@
 		 <h3>Lawn</h3>
 		 <select id="lawn" name="lawn">
 			<option value="N/A" selected>N/A</option>
-			<option value="Mowed" selected>Mowed</option>
+			<option value="Mowed">Mowed</option>
 			<option value="Mowed & Edged">Mowed & Edged</option>
 			<option value="Fertilized">Fertilized</option>
 		  </select>
@@ -58,10 +62,36 @@
 		 <input type="text" id="other" placeholder="None"></input>
 		 <h3>Date</h3>
 		 <input type="text" id="date" placeholder="02/20/20" style="margin-bottom: 20px;"></input>
+		 <div class="fillFields" style="display: none; color:red;">All fields must be filled</div>
 		 <button id="create-btn">Create</button>
 		 <button id="save-btn" style="display: none;">Save</button>
 		</div>
 	</div>
+
+	<div id="hours-modal" class="modal">
+		<div class="modal-content">
+			<span class="hours-close">&times;</span>
+			<h2 id="modal-title">Hours</h2>
+			<select id="month" name="Month">
+				<option value=0>January</option>
+				<option value=1>February</option>
+				<option value=2>March</option>
+				<option value=3>April</option>
+				<option value=4>May</option>
+				<option value=5>June</option>
+				<option value=6>July</option>
+				<option value=7>August</option>
+				<option value=8>September</option>
+				<option value=9>Octover</option>
+				<option value=10>November</option>
+				<option value=11>December</option>
+			</select>
+			<ul id="total-hours">
+
+			</ul>
+		</div>
+	</div>
+
 	</div>
 
 	<div class="card register-card" style="display: none;">

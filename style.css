@@ -18,6 +18,17 @@
     nav h1{
     margin-left: 20px;
     color: #333333;
+    float: left;
+    }
+    nav h3 {
+        float: right;
+        margin-right: 20px;
+        margin-top: 25px;
+        color: white;
+    }
+    nav h3:hover {
+        color: #333333;
+        cursor: pointer;
     }
     button{
     background-color: #3498DB;
@@ -144,7 +155,7 @@
     }
     
     /* The Close Button */
-    .close {
+    .close, .hours-close {
     color: #aaaaaa;
     float: right;
     font-size: 28px;
@@ -164,7 +175,9 @@
     }
     
     .close:hover,
-    .close:focus {
+    .close:focus,
+    .hours-close:hover,
+    .hours-close:focus {
     color: #000;
     text-decoration: none;
     cursor: pointer;
@@ -276,6 +289,21 @@
         float: right;
     }
     
+    #hours-modal ul{
+        list-style: none;
+        padding: 0;
+    }
+    
+    #hours-modal li {
+        margin-bottom: 20px;
+        font-size: larger;
+        word-spacing: 20px;
+    }
+    
+    #hours-modal li:last-child {
+        margin-top: 50px;
+    }
+    
     
     @media only screen and (max-width:620px) {
     
@@ -332,12 +360,4 @@
         #myModal {
             padding: 0px;
         }
-    
-        /* .modal-content h3 {
-            padding-left: 10px;
-        }
-    
-        .modal-content input, select {
-            width: 90%;
-        } */
     }

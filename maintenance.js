@@ -1,7 +1,75 @@
-var BASEURL = "https://maintenancetracker.herokuapp.com"
-
 window.onload = function() {
     loadJobs();
+}
+
+$("#date").datepicker({
+    dateFormat: "m/d/y"
+});
+
+document.querySelector('#month').value = new Date().getMonth();
+
+document.querySelector("#month").onchange = function() {
+
+    document.querySelector('#total-hours').innerHTML = "";
+    
+    var month = document.querySelector('#month').value;
+
+    loadHours(month);
+
+};
+
+function loadHours(month) {
+
+    fetch("http://localhost:8080/jobs", {
+        method: "GET",
+        credentials: "include"
+    }).then(function (response) {
+        if (response.status == 200) {
+
+            response.json().then(function (jobsFromServer) {
+                jobs = jobsFromServer;
+
+                function onlyUnique(value, index, self) { 
+                    return self.indexOf(value) === index;
+                }
+                
+                var total = 0;
+                var names = [];
+                var usersHours = [];
+                jobs.forEach(function (job){
+                    names.push(job['name']);
+                });
+
+                names = names.filter(onlyUnique);
+
+                names.forEach(function (name){   
+                    var userTotal = 0;
+                    jobs.forEach(function (job){
+                        if (name == job['name']){
+                            var date = job['date'].split('/');
+                            if ( date[0]-1 == month ) {
+                                total += parseInt(job['hours'], 10);
+                                userTotal += parseInt(job['hours'], 10);
+                            }
+                        }
+                    });
+                    usersHours.push(userTotal);
+                });
+
+                var list = document.querySelector('#total-hours');
+                for(let i=0; i < names.length; i++) {
+                    var li = document.createElement('li');
+                    li.innerHTML = names[i] + ' ' + usersHours[i];
+                    list.appendChild(li);
+                };
+                var li = document.createElement('li');
+                    li.innerHTML = 'Total ' + total;
+                    list.appendChild(li);
+            });
+        } else {
+            
+        }
+    });
 }
 
 var button = document.querySelector("#create-btn");
@@ -15,25 +83,25 @@ button.onclick = function(){
 
     if (nameInput!="" && hoursInput!="" && dateInput!="" && otherInput!=""){
         var data = "name=" + encodeURIComponent(nameInput) + "&hours=" + encodeURIComponent(hoursInput) + "&lawn=" + encodeURIComponent(lawnInput) + "&other=" + encodeURIComponent(otherInput) + "&date=" + encodeURIComponent(dateInput);
-
+        
         console.log(data);
-        fetch(BASEURL + "/jobs", {
+        fetch("http://localhost:8080/jobs", {
             method: "POST",
             credentials: "include",
-            body: data,
-            headers: {
-                "Content-Type": "application/x-www-form-urlencoded"
-            }
+            body: data
         }).then(function () {
             loadJobs();
         });
         modal.style.display = "none";
+    } else {
+        document.querySelector('.fillFields').style.display = 'block';
     }
 };
 
 // loads the list of restaurants and appends them to a list on the website.
 function loadJobs() {
-    fetch(BASEURL + "/jobs", {
+    fetch("http://localhost:8080/jobs", {
+        method: "GET",
         credentials: "include"
     }).then(function (response) {
         if (response.status == 200) {
@@ -78,9 +146,9 @@ function loadJobs() {
                     tr.appendChild(td2);     
                     tr.appendChild(td);
                     jobsTable.appendChild(tr);
-
+                    
                 });
-
+            
             });
         } else {
             document.querySelector(".register-card").style.display = 'block';
@@ -92,7 +160,7 @@ function loadJobs() {
 function deleteJobOnServer(jobId) {
     console.log(jobId);
     if (confirm("Are you sure you want to Delete this item?")) {
-        fetch(BASEURL +"/jobs/" + jobId, {
+        fetch("http://localhost:8080/jobs/" + jobId, {
             method: "DELETE",
             credentials: "include"
         }).then(function (response){
@@ -104,7 +172,7 @@ function deleteJobOnServer(jobId) {
 }
 
 function selectJobOnServer(jobId){
-    fetch(BASEURL + "/jobs/" + jobId, {
+    fetch("http://localhost:8080/jobs/" + jobId, {
         credentials: "include"
     }).then(function (response) {
         response.json().then(function (jobsFromServer) {
@@ -135,9 +203,9 @@ function selectJobOnServer(jobId){
 
             if (nameInput!="" && hoursInput!="" && dateInput!="" && otherInput!=""){
                 var data = "name=" + encodeURIComponent(nameInput) + "&hours=" + encodeURIComponent(hoursInput) + "&lawn=" + encodeURIComponent(lawnInput) + "&other=" + encodeURIComponent(otherInput) + "&date=" + encodeURIComponent(dateInput);
-
+                
                 console.log(data);
-                fetch(BASEURL + "/jobs/" + jobsFromServer['id'], {
+                fetch("http://localhost:8080/jobs/" + jobsFromServer['id'], {
                     method: "PUT",
                     credentials: "include",
                     body: data,
@@ -148,6 +216,8 @@ function selectJobOnServer(jobId){
                     loadJobs();
                 });
                 modal.style.display = "none";
+            } else {
+                document.querySelector('.fillFields').style.display = 'block';
             }
         };  
         });
@@ -187,6 +257,35 @@ if (event.target == modal) {
 }
 }
 
+// Get the modal
+var HoursModal = document.getElementById("hours-modal");
+
+// Get the button that opens the modal
+var hoursBtn = document.getElementById("hours-btn");
+
+// Get the <span> element that closes the modal
+var hoursSpan = document.getElementsByClassName("hours-close")[0];
+
+// When the user clicks the button, open the modal 
+hoursBtn.onclick = function() {
+    loadHours(new Date().getMonth());
+    HoursModal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+hoursSpan.onclick = function() {
+    HoursModal.style.display = "none";
+    document.querySelector('#total-hours').innerHTML = "";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+if (event.target == HoursModal) {
+    this.HoursModal.style.display = "none";
+    document.querySelector('#total-hours').innerHTML = "";
+}
+}
+
 var registerBtn = document.querySelector('#register-btn');
 
 registerBtn.onclick = function(){
@@ -198,18 +297,12 @@ registerBtn.onclick = function(){
     if (firstInput!="" && lastInput!="" && emailInput!="" && passwordInput!=""){
         var data = "first=" + encodeURIComponent(firstInput) + "&last=" + encodeURIComponent(lastInput) + "&email=" + encodeURIComponent(emailInput) + "&password=" + encodeURIComponent(passwordInput);
 
-        fetch(BASEURL + "/users", {
+        fetch("http://localhost:8080/users", {
             method: "POST",
             credentials: "include",
             body: data,
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded"
-            }
-        }).then(function (response){
-            if(response.status == 422) {
-                document.querySelector('#alertMsg').style.display = 'block';
-                document.querySelector('.login-card').style.display = "none";
-                document.querySelector('.register-card').style.display = "block";
             }
         });
     }
@@ -220,27 +313,20 @@ var loginBtn = document.querySelector('#login-btn');
 loginBtn.onclick = function(){
     var emailInput = document.querySelector("#email2").value;
     var passwordInput = document.querySelector("#password2").value;
-    console.log(passwordInput);
 
     if (emailInput!="" && passwordInput!=""){
         var data = "email=" + encodeURIComponent(emailInput) + "&password=" + encodeURIComponent(passwordInput);
 
-        fetch(BASEURL + "/sessions", {
+        fetch("http://localhost:8080/sessions", {
             method: "POST",
             credentials: "include",
             body: data,
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded"
             }
-        }).then(function (response){
-            if(response.status == 401) {
-                document.querySelector('#alertMsg2').style.display = 'block';
-                document.querySelector('.register-card').style.display = "none";
-                document.querySelector('.login-card').style.display = "block";       
-            } else {
-                loadJobs();
-            }
-
+        }).then(function (response) {
+            console.log(response.status)
+            loadJobs();
         });
     }
 };
