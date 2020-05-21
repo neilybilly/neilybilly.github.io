@@ -340,3 +340,16 @@ document.querySelector('#dont').onclick = function() {
     document.querySelector('.register-card').style.display = "block";
     document.querySelector('.login-card').style.display = "none";
 };
+
+var folder = "images/";
+
+$.ajax({
+    url : folder,
+    success: function (data) {
+        $(data).find("a").attr("href", function (i, val) {
+            if( val.match(/\.(jpe?g|png|gif)$/) ) { 
+                $("#img").append( "<img src='"+ folder + val +"'>" );
+            } 
+        });
+    }
+});
