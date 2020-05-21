@@ -348,7 +348,8 @@ $.ajax({
     success: function (data) {
         $(data).find("a").attr("href", function (i, val) {
             if( val.match(/\.(jpe?g|png|gif)$/) ) { 
-                $("#img").prepend( "<img src='"+ folder + val +"'/>" );
+                document.querySelector('#img').innerHTML = "<img src='"+ folder + val +"'/>";
+                // $("#img").append( "<img src='"+ folder + val +"'/>" );
             } 
         });
     }
