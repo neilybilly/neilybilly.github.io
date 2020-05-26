@@ -37,6 +37,7 @@ function loadHours(month) {
                 var total = 0;
                 var names = [];
                 var usersHours = [];
+                receipts = 0;
                 jobs.forEach(function (job){
                     names.push(job['name']);
                 });
@@ -51,10 +52,15 @@ function loadHours(month) {
                             if ( date[0]-1 == month ) {
                                 total += parseFloat(job['hours']);
                                 userTotal += parseFloat(job['hours']);
+
+                                if(job['reimburse'] == 1){
+                                    receipts += 1;
+                                }
                             }
                         }
                     });
                     usersHours.push(userTotal);
+                    document.querySelector('#reimbursment').innerHTML = "There are " + receipts + " receipts";
                 });
 
                 var list = document.querySelector('#total-hours');
@@ -81,9 +87,17 @@ button.onclick = function(){
     var lawnInput = document.querySelector("#lawn").value;
     var otherInput = document.querySelector("#other").value;
     var dateInput = document.querySelector("#date").value;
+    var reimburseInput = document.querySelector('#reimburse');
+
+    var checked;
+    if ( reimburseInput.checked == true) {
+        checked = 1;
+    } else {
+        checked = 0;
+    }
 
     if (nameInput!="" && hoursInput!="" && dateInput!="" && otherInput!=""){
-        var data = "name=" + encodeURIComponent(nameInput) + "&hours=" + encodeURIComponent(hoursInput) + "&lawn=" + encodeURIComponent(lawnInput) + "&other=" + encodeURIComponent(otherInput) + "&date=" + encodeURIComponent(dateInput);
+        var data = "name=" + encodeURIComponent(nameInput) + "&hours=" + encodeURIComponent(hoursInput) + "&lawn=" + encodeURIComponent(lawnInput) + "&other=" + encodeURIComponent(otherInput) + "&date=" + encodeURIComponent(dateInput) + "&reimburse=" + encodeURIComponent(checked);;
         
         console.log(data);
         fetch(BASEURL + "/jobs", {
@@ -190,6 +204,13 @@ function selectJobOnServer(jobId){
         document.querySelector("#lawn").value = jobsFromServer['lawn'];
         document.querySelector("#other").value = jobsFromServer['other'];
         document.querySelector("#date").value = jobsFromServer['date'];
+        var checked = jobsFromServer['reimburse'];
+
+        if (checked == 1){
+            document.querySelector('#reimburse').checked = true;
+        } else {
+            document.querySelector('#reimburse').checked = false;
+        }
 
         var save = document.querySelector("#save-btn");
 
@@ -199,10 +220,18 @@ function selectJobOnServer(jobId){
             var hoursInput = document.querySelector("#hours").value;
             var lawnInput = document.querySelector("#lawn").value;
             var otherInput = document.querySelector("#other").value;
-            var dateInput = document.querySelector("#date").value;  
+            var dateInput = document.querySelector("#date").value;
+            var reimburseInput = document.querySelector('#reimburse');  
+
+            var checked;
+            if ( reimburseInput.checked == true) {
+                checked = 1;
+            } else {
+                checked = 0;
+            }
 
             if (nameInput!="" && hoursInput!="" && dateInput!="" && otherInput!=""){
-                var data = "name=" + encodeURIComponent(nameInput) + "&hours=" + encodeURIComponent(hoursInput) + "&lawn=" + encodeURIComponent(lawnInput) + "&other=" + encodeURIComponent(otherInput) + "&date=" + encodeURIComponent(dateInput);
+                var data = "name=" + encodeURIComponent(nameInput) + "&hours=" + encodeURIComponent(hoursInput) + "&lawn=" + encodeURIComponent(lawnInput) + "&other=" + encodeURIComponent(otherInput) + "&date=" + encodeURIComponent(dateInput) + "&reimburse=" + encodeURIComponent(checked);
                 
                 console.log(data);
                 fetch(BASEURL + "/jobs/" + jobsFromServer['id'], {
@@ -340,3 +369,9 @@ document.querySelector('#dont').onclick = function() {
     document.querySelector('.register-card').style.display = "block";
     document.querySelector('.login-card').style.display = "none";
 };
+
+document.querySelector('#reimburse').onchange = function() {
+    if (document.querySelector('#reimburse').checked == true) {
+        alert('Plese turn in your receipt');
+    }
+}
