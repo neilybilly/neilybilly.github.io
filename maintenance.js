@@ -25,7 +25,7 @@ function loadHours(month) {
     fetch(BASEURL + "/jobs", {
         credentials: "include"
     }).then(function (response) {
-        if (response.status == 200) {
+        // if (response.status == 200) {
 
             response.json().then(function (jobsFromServer) {
                 jobs = jobsFromServer;
@@ -73,9 +73,9 @@ function loadHours(month) {
                     li.innerHTML = 'Total ' + total;
                     list.appendChild(li);
             });
-        } else {
+        // } else {
             
-        }
+        // }
     });
 }
 
