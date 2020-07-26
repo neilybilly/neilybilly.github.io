@@ -118,7 +118,7 @@ function loadJobs() {
     fetch(BASEURL + "/jobs", {
         credentials: "include"
     }).then(function (response) {
-        if (response.status == 200) {
+        // if (response.status == 200) {
             document.querySelector('.register-card').style.display = "none";
             document.querySelector('.login-card').style.display = "none";
             document.querySelector("#main").style.display = 'block';
@@ -164,10 +164,10 @@ function loadJobs() {
                 });
             
             });
-        } else {
-            document.querySelector(".register-card").style.display = 'block';
-            document.querySelector("#main").style.display = 'none';
-        }
+        // } else {
+            // document.querySelector(".register-card").style.display = 'block';
+            // document.querySelector("#main").style.display = 'none';
+        // }
     });
 }
 
